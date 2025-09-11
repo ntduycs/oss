@@ -29,4 +29,4 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 
 rootProject.name = "oss"
 
-include("grpc-contract-starter")
+include("grpc-contract-packager")

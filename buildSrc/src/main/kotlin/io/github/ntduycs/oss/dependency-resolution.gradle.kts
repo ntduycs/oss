@@ -1,4 +1,4 @@
-package com.github.ntduycs.oss
+package io.github.ntduycs.oss
 
 plugins {
   id("java-library")

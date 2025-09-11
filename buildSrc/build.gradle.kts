@@ -21,7 +21,7 @@ dependencies {
 spotless {
   kotlinGradle {
     target("**/*.gradle.kts")
-    ktlint("${property("ktlin.version")}")
+    ktlint("${property("ktlint.version")}")
       .editorConfigOverride(mapOf("indent_size" to "2", "continuation_indent_size" to "2", "max_line_length" to "120"))
     trimTrailingWhitespace()
     endWithNewline()
