@@ -28,6 +28,8 @@ java {
 }
 
 dependencies {
+  implementation("build.buf:build.buf.gradle.plugin:${property("buf.version")}")
+
   // Test dependencies
   testImplementation(gradleTestKit())
 

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+// A department represents a functional unit within the employee management system, such as Engineering, Sales, or HR.
+// It can have a hierarchical structure with parent-child relationships, allowing for complex organizational structures.
+package employee.department.v1;
+
+import "buf/validate/validate.proto";
+
+// **Description**: Represents a department in the employee management system.
+//
+// <details>
+// <summary>Example: <i>(Click to expand)</i></summary>
+// ```json
+// {
+//   "id": "123e4567-e89b-12d3-a456-426614174000",
+//   "name": "Engineering",
+//   "parent": {
+//     "id": "123e4567-e89b-12d3-a456-426614174000",
+//     "name": "Corporate"
+//   },
+//   "groupable": true,
+//   "disabled": false
+// }
+// ```
+// </details>
+message DepartmentModel {
+  // **Description**: Unique identifier for the department.
+  //
+  // **Examples**: `123e4567-e89b-12d3-a456-426614174000`
+  string id = 1 [(buf.validate.field) = {
+    required: true
+    string: {uuid: true}
+  }];
+
+  // **Description**: Name of the department.
+  //
+  // **Examples**: `Engineering`
+  string name = 2 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 3
+      max_len: 100
+    }
+  }];
+
+  // **Description**: Parent department information, if applicable. This field is used to represent hierarchical relationships between departments.
+  //
+  // **Examples**:
+  // ```json
+  // {
+  //   "id": "123e4567-e89b-12d3-a456-426614174000",
+  //   "name": "Corporate"
+  // }
+  // ```
+  optional ParentDepartmentModel parent = 3 [(buf.validate.field) = {required: false}];
+
+  // **Description**: Indicates whether the department can be used as a grouping for other departments. This is useful for organizational structures where departments can be nested or grouped together.
+  //
+  // **Examples**: `true` or `false`
+  bool groupable = 4 [(buf.validate.field) = {required: true}];
+
+  // **Description**: Indicates whether the department is disabled. This field can be used to mark departments that are no longer active or should not be used in operations.
+  //
+  // **Examples**: `true` or `false`
+  bool disabled = 5 [(buf.validate.field) = {required: true}];
+}
+
+// **Description**: Represents a parent department in the employee management system.
+//
+// <details>
+// <summary>Example: <i>(Click to expand)</i></summary>
+// ```json
+// {
+//   "id": "123e4567-e89b-12d3-a456-426614174000",
+//   "name": "Corporate"
+// }
+// ```
+// </details>
+message ParentDepartmentModel {
+  // **Description**: Unique identifier for the parent department.
+  //
+  // **Examples**: `123e4567-e89b-12d3-a456-426614174000`
+  string id = 1 [(buf.validate.field) = {
+    required: true
+    string: {uuid: true}
+  }];
+
+  // **Description**: Name of the parent department.
+  //
+  // **Examples**: `Corporate`
+  string name = 2 [(buf.validate.field) = {
+    required: true
+    string: {
+      min_len: 3
+      max_len: 100
+    }
+  }];
+}

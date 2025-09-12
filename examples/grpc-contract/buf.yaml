@@ -1,0 +1,21 @@
+# For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - STANDARD
+    - UNARY_RPC
+    - COMMENT_FIELD
+    - COMMENT_RPC
+    - COMMENT_MESSAGE
+  rpc_allow_google_protobuf_empty_requests: true
+  rpc_allow_google_protobuf_empty_responses: true
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/bufbuild/protovalidate
+breaking:
+  use:
+    - FILE
+    - WIRE
+    - WIRE_JSON

@@ -1,7 +1,11 @@
 package io.github.ntduycs.oss.grpc.packager;
 
+import build.buf.gradle.BufPlugin;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.gradle.api.GradleException;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.publish.PublishingExtension;
@@ -20,12 +24,20 @@ public class GrpcContractPackagerPlugin implements Plugin<@NotNull Project> {
     return str.substring(0, 1).toUpperCase() + str.substring(1);
   }
 
+  private static String kebabToCamel(String str) {
+    var words = str.split("-");
+    return Arrays.stream(words)
+        .map(GrpcContractPackagerPlugin::capitalize)
+        .collect(Collectors.joining());
+  }
+
   /** Default constructor for the plugin */
   public GrpcContractPackagerPlugin() {}
 
   @Override
   public void apply(Project project) {
     project.getPluginManager().apply(MavenPublishPlugin.class);
+    project.getPluginManager().apply(BufPlugin.class);
 
     var publisher = project.getExtensions().getByType(PublishingExtension.class);
     var baseGroup = project.getGroup().toString();
@@ -34,7 +46,14 @@ public class GrpcContractPackagerPlugin implements Plugin<@NotNull Project> {
 
     for (var protoDir : protoDirs) {
       var dir = protoDir.getName();
-      var version = project.getProviders().gradleProperty(versionName(dir)).get();
+      var versionProvider = project.findProperty(versionName(dir));
+
+      if (versionProvider == null) {
+        throw new GradleException("Version not found for %s".formatted(dir));
+      }
+
+      var version = versionProvider.toString();
+
       var task =
           project
               .getTasks()
@@ -88,7 +107,7 @@ public class GrpcContractPackagerPlugin implements Plugin<@NotNull Project> {
   }
 
   private String taskName(String dir) {
-    return "package%sGrpcContract".formatted(capitalize(dir));
+    return "package%sGrpcContract".formatted(kebabToCamel(dir));
   }
 
   private String versionName(String dir) {
