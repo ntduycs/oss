@@ -32,3 +32,4 @@ rootProject.name = "oss"
 include(":grpc-contract-packager")
 include(":grpc-contract-compiler")
 include(":examples:grpc-contract")
+include(":examples:grpc-service")

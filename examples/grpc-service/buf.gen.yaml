@@ -1,0 +1,20 @@
+version: v2
+managed:
+  enabled: true
+  disable:
+    - module: buf.build/googleapis/googleapis
+    - module: buf.build/bufbuild/protovalidate
+  override:
+    - file_option: java_package_prefix
+      value: io.github.ntduycs.oss.example.grpc
+    - file_option: java_multiple_files
+      value: true
+plugins:
+  - remote: buf.build/protocolbuffers/java:v31.1
+    out: sources/grpc/java/main
+    include_imports: true
+  - remote: buf.build/grpc/java:v1.72.0
+    out: sources/grpc/java/main
+    opt: "@generated=omit"
+inputs:
+  - directory: build/extracted-proto

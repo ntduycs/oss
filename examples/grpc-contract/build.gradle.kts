@@ -12,7 +12,7 @@ publishing {
     // Feel free to replace it with your own repository
     maven {
       name = "test"
-      url = uri(layout.buildDirectory.dir("repo").get())
+      url = uri(rootProject.layout.buildDirectory.dir("repo").get())
     }
   }
 }
