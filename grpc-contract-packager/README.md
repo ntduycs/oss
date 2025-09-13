@@ -78,14 +78,15 @@ The plugin works well with Buf for protocol buffer linting and breaking change d
 # For details on buf.yaml configuration, visit https://buf.build/docs/configuration/v2/buf-yaml
 version: v2
 modules:
-  - path: proto
+  - path: build/extracted-proto
 lint:
   use:
     - STANDARD
     - UNARY_RPC
     - COMMENT_FIELD
     - COMMENT_RPC
-    - COMMENT_MESSAGE
+  ignore:
+    - PACKAGE_VERSION_SUFFIX
   rpc_allow_google_protobuf_empty_requests: true
   rpc_allow_google_protobuf_empty_responses: true
 deps:
@@ -148,10 +149,14 @@ dependencies {
 
 For a complete working example, see the [example project](https://github.com/ntduycs/oss/tree/main/examples/grpc-contract) in the repository.
 
+## Compatibility
+
+This plugin is designed to work with the [gRPC Contract Compiler](https://github.com/ntduycs/oss/tree/main/grpc-contract-compiler) plugin, which extract gRPC contracts from ZIP archives and generate gRPC stubs.
+
 ## Contribution
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the Apache License 2.0.
+This project is licensed under the Apache License 2.0 - see the [LICENSE](../LICENSE) file for details.
